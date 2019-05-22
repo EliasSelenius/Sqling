@@ -86,6 +86,11 @@ namespace Sqling {
             return hasRows;
         }
 
+        public IEnumerable<T> Query<T>(string sqlCode, dynamic vars) where T : new() {
+            List<T> res = new List<T>();
+            ExecuteReader(sqlCode, (ReaderFunc)(r => res.Add(SQLTable<T>.NewFromReader(r))), vars);
+            return res;
+        }
 
         public IEnumerable<T> Select<T>() where T : new() {
             var res = new List<T>();
